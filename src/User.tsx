@@ -7,9 +7,13 @@ type RequestStatus = "PENDING" | "SUCCESS" | "ERROR" | null;
 export function User({
   username,
   preloadedUser,
+  toggleSelectUser,
+  isSelected,
 }: {
   username: string;
   preloadedUser?: any;
+  toggleSelectUser: (login: string) => void;
+  isSelected: boolean;
 }) {
   const [user, setUser] = useState<any>(preloadedUser);
   const [userRequestStatus, setUserRequestStats] = useState<RequestStatus>();
@@ -49,7 +53,7 @@ export function User({
     return (
       <div
         onClick={(e) => {
-          setIsShowingFollowers(!isShowingFollowers);
+          toggleSelectUser(user.login);
           e.stopPropagation();
         }}
         style={{
@@ -73,7 +77,7 @@ export function User({
           <strong style={{ marginLeft: "8px" }}>{user.login}</strong>
         </div>
         <div style={{ borderLeft: "1px solid gray", marginLeft: "12px" }}>
-          {isShowingFollowers && <Followers username={username} />}
+          {isSelected && <Followers username={username} />}
         </div>
       </div>
     );

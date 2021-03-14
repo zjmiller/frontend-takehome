@@ -8,6 +8,7 @@ export function Followers({ username }: { username: string }) {
   const [followers, setFollowers] = useState<any>();
   const [userRequestStatus, setUserRequestStats] = useState<RequestStatus>();
   const [errorMsg, setErrorMsg] = useState("");
+  const [selectedFollower, setSelectedFollower] = useState<string | null>(null);
 
   useEffect(() => {
     (async function () {
@@ -44,7 +45,18 @@ export function Followers({ username }: { username: string }) {
         }}
       >
         {followers.map((follower: any) => (
-          <User username={follower.login} key={follower.login} />
+          <User
+            username={follower.login}
+            key={follower.login}
+            isSelected={selectedFollower === follower.login}
+            toggleSelectUser={(userLogin) => {
+              if (selectedFollower === userLogin) {
+                setSelectedFollower(null);
+              } else {
+                setSelectedFollower(userLogin);
+              }
+            }}
+          />
         ))}
       </div>
     );
