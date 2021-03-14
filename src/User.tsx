@@ -65,6 +65,7 @@ export function User({
         <div
           style={{
             alignItems: "center",
+            cursor: "pointer",
             display: "flex",
             padding: "8px 0",
           }}
