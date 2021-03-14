@@ -70,6 +70,7 @@ export function User({
           }}
         >
           <img
+            alt="User profile"
             src={user.avatar_url}
             style={{ borderRadius: "12px", height: "24px", width: "24px" }}
           />
