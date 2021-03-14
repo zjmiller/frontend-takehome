@@ -18,7 +18,6 @@ export function User({
   const [user, setUser] = useState<any>(preloadedUser);
   const [userRequestStatus, setUserRequestStats] = useState<RequestStatus>();
   const [errorMsg, setErrorMsg] = useState("");
-  const [isShowingFollowers, setIsShowingFollowers] = useState(false);
 
   useEffect(() => {
     if (preloadedUser) {
@@ -27,16 +26,16 @@ export function User({
 
     (async function () {
       setUserRequestStats("PENDING");
-      try {
-        const response = await fetch(
-          `https://api.github.com/users/${username}`
-        );
-        const user = await response.json();
-        setUserRequestStats("SUCCESS");
-        setUser(user);
-      } catch (e) {
+
+      const response = await fetch(`https://api.github.com/users/${username}`);
+      const responseJSON = await response.json();
+
+      if (responseJSON.message === "Not Found") {
         setUserRequestStats("ERROR");
-        setErrorMsg(e.message);
+        setErrorMsg(`User ${username} not found!`);
+      } else {
+        setUserRequestStats("SUCCESS");
+        setUser(responseJSON);
       }
     })();
   }, [username, preloadedUser, setUser]);
